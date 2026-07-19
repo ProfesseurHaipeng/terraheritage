@@ -11,6 +11,7 @@ import { QUALITY_SPECS } from '@/lib/quality';
 import { useAppStore } from '@/stores/appStore';
 import Stars from './Stars';
 import Earth from './Earth';
+import Clouds from './Clouds';
 import SeasonLayer from './SeasonLayer';
 import RouteArcs from './RouteArcs';
 import Markers, { type MarkerSpec } from './Markers';
@@ -72,6 +73,8 @@ export default function GlobeCanvas({
         <Suspense fallback={null}>
           <Stars count={spec.stars} />
           <Earth spec={spec} />
+          {/* 云层:节能档不渲染(与 oceanSpecular 同档开关) */}
+          {quality !== 'saver' && <Clouds />}
           <SeasonLayer />
           <RouteArcs routes={routes} visible={routesVisible} />
           <Markers markers={markers} onSelect={onMarkerSelect} />

@@ -4,7 +4,7 @@
  * 半径 1.001 的球面 BufferGeometry(useMemo 缓存,选中/月份变化不重建)。
  * 调色:纬度带基色(低纬偏绿 / 中纬基底 / 高纬岩灰),季节调制由 SeasonLayer
  * 通过 fillRegistry 每帧 lerp 完成。
- * 交互态:选中国整体抬升 0.006R(scale 1.006);有选中时其他国家透明度降至 0.55。
+ * 交互态:选中国整体抬升 0.006R(scale 1.006);有选中时选中国 0.85、其他 0.15(地表纹理由海洋球承担后,本层降为交互着色层,默认 opacity 0.30)。
  */
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
@@ -79,7 +79,7 @@ function buildEntry(
   const material = new THREE.MeshBasicMaterial({
     color: baseColor.clone(),
     transparent: true,
-    opacity: 0.92,
+    opacity: 0.3, // 交互着色层:默认低透明,让地表纹理透出来
     depthWrite: false,
     side: THREE.DoubleSide, // 朝向校验之外的兜底:极端小环/退化环也不出现黑洞
   });
@@ -126,10 +126,10 @@ export default function CountryFills({ simplify }: CountryFillsProps) {
     };
   }, [entries]);
 
-  // 选中态:有选中时其他国家透明度降至 0.55(DESIGN.md §3.3)
+  // 选中态(DESIGN.md §3.3 调整版):纹理接管地表后,填充层只承担交互着色
   useEffect(() => {
     for (const e of entries) {
-      e.material.opacity = selectedIso === null ? 0.92 : e.iso === selectedIso ? 0.95 : 0.55;
+      e.material.opacity = selectedIso === null ? 0.3 : e.iso === selectedIso ? 0.85 : 0.15;
     }
   }, [entries, selectedIso]);
 

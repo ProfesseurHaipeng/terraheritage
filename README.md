@@ -1,89 +1,85 @@
-# TerraHeritage · 万物本草
+# TerraHeritage 地球项目
 
-**A 3D digital globe of plants, cultures and traditional medical knowledge — an open, non-profit educational prototype.**
-万物本草·全球生命文化地球:一个探索"地点 → 生态 → 季节 → 植物 → 民族 → 传统医学 → 现代证据 → 安全"知识链的 3D 数字地球(开源公益原型)。
+一个以 React、TypeScript 与 Vite 构建的沉浸式 3D 世界遗产可视化体验。项目以交互式地球呈现人类文明瑰宝，融合电影化运镜、氛围光照、高分辨率纹理与平滑轨道过渡。界面以中文呈现，可通过点击、缩放与惯性旋转探索全球遗产地。
 
-[中文说明 README.zh-CN.md](README.zh-CN.md)
+## 语言版本
 
-![Intro](docs/screenshots/01-intro.png)
+[English README](README.en.md)
 
-## ✨ What it is
+## 概览
 
-TerraHeritage is not another encyclopedia. It is an interactive 3D Earth where
-geography, ecology, seasons, plants, ethnic cultures and traditional medical
-knowledge are connected as one explorable knowledge graph — with museum-grade
-visuals and strict source/evidence labelling.
+- 实时渲染的 3D 地球，配合物理感知的运动与季节性色彩调色。
+- 精选世界遗产数据，丰富的元信息与摄影构图。
+- 由 lightweight 状态机驱动的电影化相机器乐。
+- 为静态托管优化的资源管线与高保真纹理。
+- 响应式 UI 叠加层，提供遗产地信息与导航提示。
 
-**MVP features**
+## 快速开始
 
-- 🌍 Real spherical 3D globe (Three.js / React Three Fiber): starfield, atmosphere shader, ocean sun-glint, auto-rotation, drag/zoom with altitude-scaled damping
-- 🗺️ 241 country shapes (Natural Earth, public domain) rendered as sphere-conforming fills — hover highlight, click to open country panel, double-click to fly in
-- 🌱 Season engine: N/S-hemisphere logic, tropical wet/dry model, land re-tinting and high-latitude snow by month, year playback
-- 🌿 Plant cards with a **dual-layer view**: cultural/historical records vs. modern evidence (A–E evidence badges), safety notes, sensitive-species coordinate fuzzing
-- 🧑‍🤝‍🧑 Culture & medical-tradition layers with a fixed educational disclaimer
-- 🐫 Historical spread routes (Silk Road, Tea Horse Road…) as animated great-circle arcs, labelled as schematic approximations
-- 🔍 Global search (⌘K) across countries / plants / cultures / traditions, zh + en
-- 🌐 Bilingual UI (中文 / English), responsive mobile bottom-sheet, keyboard shortcuts, reduced-motion mode, 3 quality tiers
-- 🔎 Every fact carries source links + a `draft` review badge — no source, no publish
+### 环境要求
 
-![Globe](docs/screenshots/02-globe.png)
-![Country](docs/screenshots/04-country.png)
-![Plant](docs/screenshots/06-plant.png)
-![Mobile](docs/screenshots/08-mobile-medicine.png)
+- Node.js 18+
+- npm 9+
 
-## 🚀 Quick start
+### 本地运行
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run build      # production build → dist/
-npm run preview    # serve the production build
+npm run dev
 ```
 
-Requires Node.js 20+. Optional config: copy `.env.example` → `.env`.
+开发服务器默认运行在 `http://localhost:3000`。
 
-**Keyboard**: `Space` toggle auto-rotation · `Esc` close panel · `R` global view · `F` focus selected country · `⌘K / Ctrl+K` search · `L` layers
+### 二进制资产还原
 
-## 🧱 Tech stack
+仓库中的 17 个图片类二进制资产（`docs/screenshots/` 下 5 张 PNG、`public/assets/` 下 9 张 JPG/PNG、`public/textures/` 下 3 张 PNG）以 base64 文本形式存放于 `assets-b64/` 目录。克隆仓库后请运行：
 
-Vite 7 · React 19 · TypeScript (strict) · Three.js + React Three Fiber + drei · zustand · Tailwind CSS · shadcn/ui · cmdk
-No backend — all content ships as typed in-repo data modules (`src/data/`); geo data is vendored (`src/data/geo/`), so the site never depends on live external APIs.
-
-```
-src/
-  three/       GlobeCanvas, Earth+Atmosphere shaders, CountryFills/Borders,
-               SeasonLayer, RouteArcs, Markers, CameraRig, Stars
-  components/  Panels, cards, search, season control, badges, drawers…
-  data/        countries / regions / plants / cultures / medicine / routes / sources
-  lib/         geo (spherical triangulation, picking), season, i18n, quality
-  stores/      zustand app store
-docs/          DESIGN.md (full design spec), screenshots
-scripts/       convert-geo.mjs (Natural Earth → GeoJSON pipeline)
+```bash
+bash scripts/restore-assets.sh
 ```
 
-## ⚖️ Data, ethics & compliance
+脚本会一次性完成解码还原并校验文件非空，之后即可正常 `npm install && npm run dev`。
 
-This is an **educational prototype**. All content records are **illustrative sample data marked `draft` (unreviewed)** — they demonstrate the information architecture, not verified facts.
+## 构建与预览
 
-- Every entity links to **real source institutions** (POWO/Kew, GBIF, WHO, UNESCO, IUCN, Flora of China, BHL, WFO, NIH NCCIH, Chinese Pharmacopoeia, EMA, PubMed); institution homepages are cited for transparency only.
-- **No medical advice**: the platform offers cultural, historical and botanical education only. No dosages, no preparation steps, no efficacy claims, no purchase links.
-- Traditional use ≠ modern clinical evidence; evidence levels A–E are shown per plant.
-- Sensitive species (e.g. snow lotus, caterpillar fungus) have coordinates fuzzed to ecoregion level; wild harvesting is discouraged everywhere.
-- Cultures are presented with modern-life context, non-exoticizing language, and no political judgement on borders.
-- See [NOTICE.md](NOTICE.md) and [docs/DESIGN.md](docs/DESIGN.md) for the full governance model (source tiers S/A/B/C, review workflow, FAIR/CARE alignment).
+```bash
+npm run build
+npm run preview
+```
 
-## 🗺️ Roadmap
+## 项目结构
 
-1. **MVP (this repo)** — globe core, 10+ countries, China SW & Tibet pilot, seasons, dual-layer cards, routes, search, i18n
-2. Data engineering — source registry (40+ authorities), claim-level sourcing, review workflow, GBIF/POWO imports
-3. Global expansion — more languages, knowledge graph, comparison mode, education mode, public API
+```
+.
+├── public/                # 静态资源（纹理、预览图、站点图标）
+├── src/
+│   ├── components/        # UI 与 3D 场景组件
+│   ├── data/              # 遗产与地理数据
+│   ├── shaders/           # GLSL 着色器
+│   ├── state/             # 相机与场景状态机
+│   ├── utils/             # 数学与颜色工具
+│   └── workers/           # Web Worker 负载
+└── docs/                  # 项目展示与设计文档
+```
 
-## 🤝 Contributing
+## 界面预览
 
-Contributions welcome — especially botany / anthropology / medical-safety reviewers.
-Please keep the golden rule: **no fact without a source; no source below tier C; AI text is never a source.**
+项目附带 5 张界面截图，展示完整体验流程，位于 `docs/screenshots/`。
 
-## 📄 License
+| 序号 | 场景 | 预览 |
+| --- | --- | --- |
+| 01 | 太空俯瞰地球全貌 | ![太空俯瞰地球全貌](docs/screenshots/01-overview.png) |
+| 02 | 卫星底图俯瞰全球遗产分布 | ![卫星底图俯瞰全球遗产分布](docs/screenshots/02-globe-satellite.png) |
+| 03 | 遗产地信息面板 | ![遗产地信息面板](docs/screenshots/03-info-panel.png) |
+| 04 | 摄影特写：吉萨金字塔 | ![摄影特写：吉萨金字塔](docs/screenshots/04-closeup.png) |
+| 05 | 地形模式四季色彩：中国长城 | ![地形模式四季色彩：中国长城](docs/screenshots/05-terrain-seasons.png) |
 
-Code: [MIT](LICENSE). Sample data & AI-generated illustration assets: see [NOTICE.md](NOTICE.md).
-Geo data: Natural Earth (public domain).
+## 核心脚本
+
+- `npm run dev`：启动 Vite 开发服务器
+- `npm run build`：产出生产构建
+- `npm run preview`：本地预览生产构建
+
+## 许可
+
+项目基于 MIT License 开源，详见 [LICENSE](LICENSE)。

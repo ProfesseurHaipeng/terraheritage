@@ -1,0 +1,9 @@
+@import './styles/tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* 说明:脚手架(shadcn)遗留的 :root/.dark 变量块已移除——
+   其中的 --accent 等变量与 styles/tokens.css 的 Design Token 同名冲突,
+   且以无 hsl() 包裹的 HSL 三元组形式覆盖了 token,导致 var(--accent) 全站失效。
+   主题统一由 styles/tokens.css 接管;src/components/ui 下的脚手架组件未被页面使用。 */

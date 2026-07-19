@@ -25,8 +25,8 @@ const SOURCES = [
   'https://raw.githubusercontent.com/topojson/world-atlas/master/countries-50m.json',
 ];
 
-// 抽稀:相邻点最小角距(度)。110m 数据本身已很粗,1.2° 足够保形
-const MIN_DIST_DEG = 1.2;
+// 抽稀:相邻点最小角距(度)。0.4° 在保形与体积间平衡(50m 数据)
+const MIN_DIST_DEG = 0.4;
 
 /** 从指定 URL 下载 TopoJSON */
 async function download(url) {

@@ -1,0 +1,180 @@
+# 权威数据来源条款核查结果（审计归档）
+# 核查日期: 2026-07-20 · 方法: WebSearch 定位 + FetchURL 实际打开官方页面，每条结论附证据
+# 执行: explore 子代理；完全读取全文 14 个官方页面，403/失联页面如实标注
+# 铁律: 只记录实际看到的内容；未核实字段严禁推测
+
+- id: gbif
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: https://www.gbif.org/terms   # HTTP 200 已读全文; "Users must observe the provisions of the data user agreement."
+  license: 出现记录数据集逐条许可，仅三种之一 CC0/CC BY/CC BY-NC（2016-08 起机器可读）
+  licenseEvidence: https://www.gbif.org/terms — "ensure that all species occurrence datasets within the network are associated with digital licenses equivalent to one of…three choices supplied by Creative Commons: CC0 … CC BY … CC BY-NC"
+  citationGuideUrl: https://www.gbif.org/citation-guidelines   # 存在但本轮 fetch 403; 内容经 techdocs 交叉核实
+  citationFormat: 正式下载自动分配 DOI，引用须含 DOI；API search 无 DOI，深度过滤使用须注册 derived dataset（gbif.org/derived-dataset）
+  citationEvidence: https://techdocs.gbif.org/en/data-use/citation — "users who download data agree to cite a DOI"
+  cachingAllowed: true   # 正式下载 Simple/DwC-A/Species List + 云导出
+  redistributionAllowed: 按数据集许可（CC0 自由；CC BY 署名；CC BY-NC 署名+非商业）
+  nonCommercialAllowed: true
+  api: {tokenRequired: false, rateLimit: 动态限流 HTTP 429；创建下载需注册账号}
+  apiEvidence: https://techdocs.gbif.org/en/openapi/ — "Most use of the GBIF API does not require authentication."
+  updateFrequency: 云导出每月一次
+  notes: 下载 DOI 机制 48h 内重复查询返回原下载；网页本体非公开 API，抓取网页可能被封禁
+  unverified: [citation-guidelines 正文(403), data-user 协议全文(403)]
+
+- id: powo
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: https://www.kew.org/science/collections-and-resources/data-and-digital/terms-of-use   # HTTP 200
+  license: 按各数据集 licence 字段；kew.org 数据集元数据 CC BY；多媒体默认 CC BY 版权归 RBG Kew；无统一全站数据许可
+  citationGuideUrl: https://powo.science.kew.org/cite-us   # HTTP 200
+  citationFormat: 'POWO (2026). "Plants of the World Online. Facilitated by the Royal Botanic Gardens, Kew. Published on the Internet; https://powo.science.kew.org/ Retrieved 20 July 2026."；名称/分类/分布数据应改引 WCVP 对应版本 README 格式'
+  cachingAllowed: true   # WCVP 版本化下载 sftp.kew.org/pub/data-repositories/WCVP/（当前 v13）
+  redistributionAllowed: 未核实（允许写论文/建软件/可视化；批量再发布未明示，按各数据集 licence 字段）
+  nonCommercialAllowed: true
+  api: {tokenRequired: 未见要求, rateLimit: 按秒动态限流，超限可暂停访问}
+  apiEvidence: "API users must not exceed a certain number of requests per second, dependent on the current server load."
+  updateFrequency: 未核实（WCVP 有版本号）
+  notes: 使用须声明 "RBG, Kew cannot warrant the quality or accuracy of the data"；不得暗示 Kew 背书；建议邮件 BI@kew.org 告知
+  unverified: [批量抓取/再发布明示条款, 更新频率官方说明]
+
+- id: mpns
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: https://www.kew.org/science/collections-and-resources/data-and-digital/terms-of-use   # 同属 Kew Science 条款
+  license: 未核实独立许可；隶属 Kew Science 数据条款
+  citationFormat: "Medicinal Plant Names Services Portal Version 6 Retrieved * https://mpns.science.kew.org/mpns-portal/（*为访问日期；版本号随当前版本）"
+  citationEvidence: Kew 条款页 "Citing MPNS — It may be cited as: Medicinal Plant Names Services Portal Version 6 Retrieved *"
+  cachingAllowed: 未核实（仅在线查询，未见批量下载/API）
+  redistributionAllowed: 未核实
+  nonCommercialAllowed: true
+  api: {tokenRequired: 未见公开 API, rateLimit: Kew 条款动态限流适用}
+  updateFrequency: 季度更新（CITES CoP17 Inf 26 官方文件引述）；当前 MPNS V14（2024-11），覆盖 39,112 种 / 660,000+ 名称（门户首页核实）
+  updateEvidence: https://cites.org/sites/default/files/eng/cop/17/InfDocs/E-CoP17-Inf-26.pdf — "New versions of the resource are released onto the portal quarterly"
+  notes: 联系 mpns@kew.org；FAQ 页 403 未核实
+  unverified: [独立许可/再发布条款, 批量导出能力]
+
+- id: iucn-redlist
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: https://www.iucnredlist.org/terms/terms-of-use   # HTTP 200，v3.1 June 2024 全文已读
+  license: 自定义许可（非 CC）：仅限保护/教育/科研用途；商业使用需 IUCN 书面许可；**Red List 分类等级本身不受限制**
+  licenseEvidence: "Neither (a) IUCN Red List Data nor (b) any work derived from or based upon IUCN Red List Data… may be put to Commercial Use without the prior written permission of IUCN."；分类等级例外: "places no restrictions on use of the IUCN Red List Categories associated with each named taxonomic entity"
+  citationFormat: 衍生材料须完整署名并标注数据版本号；每条评估页提供带 DOI 的引用格式
+  citationEvidence: 条款第 6 节 "full acknowledgement and citation (which includes reference to the version of the IUCN Red List Data used)"
+  cachingAllowed: true（保护/教育/科研可下载打印，无需事前许可）
+  redistributionAllowed: false   # **严禁再发布/再许可/转售，含衍生作品；仅经书面 Waiver**
+  redistributionEvidence: "All forms of reposting, and any sub-licensing, reselling, or other forms of redistribution of IUCN Red List Data in their original format… including within Derivative Works, are strictly prohibited without the prior written permission of IUCN."
+  nonCommercialAllowed: true（"商业"定义宽：含为营利实体提供信息支持或任何创收使用）
+  api: {tokenRequired: true, rateLimit: 动态限流；官方 R 包建议 wait_time≥0.5s；滥用吊销}
+  apiEvidence: https://github.com/IUCN-UK/iucnredlist — "The use of the API falls under the same Terms of Use… By requesting a token, you are agreeing to abide by the Terms of Use of the Red List."；商业用途禁用 API，须订阅 IBAT
+  updateFrequency: 每年约两次版本更新（如 2023-1、2024-2）
+  updateEvidence: https://cites.org/sites/default/files/documents/E-CoP20-Inf-077_0.pdf — "The IUCN Red List is generally updated twice a year"
+  notes: **红线** ①条款第 7 节：数据被新版本取代后不得继续用旧版（特定分析除外），用户有责检查更新；②第 5 节：出版物须免费寄电子版 1 份或纸质 2 份给 IUCN；③经 API 提供可下载服务即构成 Redistribution 需书面豁免
+  unverified: [api.iucnredlist.org 门户页(403), 具体限流数值]
+
+- id: cites
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: https://cites.org/eng/disc/terms.php   # **未核实** — Cloudflare 人机验证拦截
+  主站全部8项: 未核实
+  subResource_checklist:
+    siteStatus: https://checklist.cites.org/ 在线（"exploration of more than 36,000 species"）；数据由 Species+（UNEP-WCMC）承载
+    termsOfUseUrl: https://www.speciesplus.net/mobile/terms_and_conditions   # HTTP 200 全文已读
+    license: 自定义条款（UNEP）：可在线发布材料但不得提供下载且须显著署名；禁止再分发与再许可；商业使用需 UNEP 书面许可
+    licenseEvidence: "The Materials may not be sub-licensed in whole or in part including within Derivative Works without the prior written permission of UNEP."
+    citationFormat: "UNEP (2022). The Species+ Website. Nairobi, Kenya. Compiled by UNEP-WCMC, Cambridge, UK. Available at: www.speciesplus.net. [Accessed (date of download dd/mm/yyyy)]"
+    cachingAllowed: 部分 — 自用下载隐含允许，但须始终用最新版本且标注下载日期
+    redistributionAllowed: false   # 任何形式再分发禁止，需 species@unep-wcmc.org 许可
+    nonCommercialAllowed: true
+    api: {tokenRequired: true, rateLimit: 未公开数值；UNEP 保留随时停用权}
+    notes: 发布用材料须两份电子副本免费寄 UNEP；不得复制/替代 speciesplus.net 核心用户体验
+  notes: CITES 公约文本/附录/决议属政府间文书；Checklist 数据实际经 Species+ 条款约束，项目应对接 Species+ 条款
+
+- id: unesco-ich
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: 未核实（/en/terms-of-use 404；站点 JS 渲染无法静态提取）
+  license: 名录网页数据未核实（页面标注 © UNESCO）；**UNESCO 开放获取出版物（UNESDOC）为 CC BY-SA 3.0 IGO**
+  licenseEvidence: https://www.unesco.org/en/open-access/cc-sa — "If you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar Creative Commons license to this one."
+  citationFormat: OA 出版物: "«Author's name» / «Title of original work» / ISBN – licensed under [适用的 CC IGO 许可]"
+  cachingAllowed: 未核实（网页名录）；OA 出版物 CC BY-SA 3.0 IGO 允许
+  redistributionAllowed: 未核实（网页名录）；OA 出版物 SA 条件下允许
+  nonCommercialAllowed: 未核实（网页名录）；OA 出版物允许（CC BY-SA 3.0 IGO 不限商业）
+  api: {tokenRequired: 未发现公开 API, rateLimit: 未核实}
+  updateFrequency: 名录按政府间委员会年度会议更新（18.COM 2023-12 / 19.COM 2024-12 / 20.COM 2025-12，会议日程推得）
+  notes: 徽标使用受 Operational Directives IV.2 严格管制（含 IV.2.6 商业使用）；**建议名录数据按 © UNESCO 处理并致函确认，勿假设 CC 许可覆盖**
+  unverified: [独立条款页, 名录数据许可, 引用格式, 缓存/再发布/商业规则, API]
+
+- id: efloras
+  verifiedAt: 2026-07-20
+  siteStatus: http://www.efloras.org/ 在线（仅 HTTP；FoC 等 7 个 Primary Floras；检索正常）
+  termsOfUseUrl: 未核实 — 版权页指向 http://flora.huh.harvard.edu/china/mss/copyrigh.htm，**主机不可达（HTTP 000）**
+  citationGuideUrl: http://flora.huh.harvard.edu/FloraData/002/citing-eflora.htm — 链接在官网存在，目标主机不可达，内容未核实
+  license: 未核实官方声明（页脚无许可文字；FoC 由 Science Press + Missouri Botanical Garden Press 出版，eFloras 由 MBG 与 Harvard Herbaria 运行）
+  cachingAllowed: 未核实
+  redistributionAllowed: 未核实
+  nonCommercialAllowed: 未核实
+  api: {tokenRequired: 无公开 API, rateLimit: 未核实}
+  updateFrequency: 未核实
+  notes: **合规最弱来源："链接可访问但条款失联"。获得版权页内容前按"保留所有权利"保守处理：仅链接与事实性名称引用，不批量抓取或再发布正文；建议联系 Missouri Botanical Garden / Harvard University Herbaria 书面确认**
+  unverified: [全部 8 项条款字段]
+
+- id: birdlife-datazone
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: https://datazone.birdlife.org/terms-and-conditions   # HTTP 200，Website Terms + Data Terms 全文已读
+  license: 自定义条款（非 CC）：BirdLife 保留全部知识产权；数据按申请目的使用；商业禁止，经 IBAT Alliance 申请
+  licenseEvidence: "Use or reproduction of the Data or Derived Products… for commercial purposes is prohibited under these Data Terms of Use… should be directed to the IBAT Alliance"
+  citationFormat: 完整署名并标注数据版本；引用细节随每个数据集提供（Data Terms 第 6 节）
+  cachingAllowed: true（限个人使用/私人研习）
+  redistributionAllowed: false   # 原始格式禁止再发布；应回链 DataZone
+  nonCommercialAllowed: true（非商业经申请表获取 https://datazone.birdlife.org/contact-us/request-our-data）
+  api: {tokenRequired: 不适用（无公开 API，批量数据走申请表）, rateLimit: **明确禁止抓取与 TDM（含 AI 训练）**}
+  apiEvidence: "You shall not conduct, facilitate, authorise or permit any text or data mining or web scraping in relation to our Data… or this website."（第 11 节，保留 EU DSM Art.4(3) 权利）
+  updateFrequency: 无固定声明；第 8 节要求不使用已被取代的旧版本
+  notes: **红线：不可爬站，只能走数据申请流程**；成果须免费寄一份给 BirdLife（第 7 节）；KBA 与 Seabird Tracking 另有专属条款
+  unverified: [更新频率官方声明, 数据审批周期]
+
+- id: mammaldiversity
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: 未核实独立条款页；许可经 Zenodo 版本记录核实
+  license: **CC BY 4.0**（Zenodo record metadata license.id = cc-by-4.0）
+  licenseEvidence: https://doi.org/10.5281/zenodo.18135819（当前最新版 v2.4）
+  citationGuideUrl: https://www.mammaldiversity.org/about（"Citing MDD" 节已核实）
+  citationFormat: ①当前数据库经 Zenodo 版本 DOI；②单条记录用页面末尾 citation string；③v2.0 分类引 Burgin et al. 2025 (doi:10.1101/2025.02.27.640393)；④v1.0 引 Burgin et al. 2018 (doi:10.1093/jmammal/gyx147)
+  cachingAllowed: true（目标即提供 CSV 下载 + 离线 App）
+  redistributionAllowed: true（CC BY 4.0 署名后共享/演绎）
+  nonCommercialAllowed: true
+  api: {tokenRequired: 未见 API 说明, rateLimit: 未核实}
+  updateFrequency: 持续实时更新 + 版本化发布（当前 v2.4，2026-01-02；旧版存 Zenodo）
+  notes: ASM Biodiversity Committee 维护；错误反馈 mammaldiversity@gmail.com；引用须同时引 Zenodo DOI 与分类学论文
+  unverified: [独立 ToU 页, API 有无与限流]
+
+- id: who-tcim
+  verifiedAt: 2026-07-20
+  targetPage: https://www.who.int/health-topics/traditional-complementary-and-integrative-medicine   # 在线
+  termsOfUseUrl: https://www.who.int/about/policies/publishing/copyright   # HTTP 200
+  license: **WHO 出版物 CC BY-NC-SA 3.0 IGO**；非 WHO 期刊文章 CC BY 3.0 IGO 或 CC BY-NC 3.0 IGO；ICD/ICF/ICHI 为 CC BY-ND 3.0 IGO；第三方素材需原出版方许可
+  licenseEvidence: "all publications published by WHO CC BY-NC-SA 3.0 IGO"
+  citationFormat: "[Title]. [Place of publication]: World Health Organization; [Year]. Licence: CC BY-NC-SA 3.0 IGO."
+  cachingAllowed: true（CC BY-NC-SA 3.0 IGO 允许复制/重印/分发/翻译/演绎，无需另行许可）
+  redistributionAllowed: true（非商业+署名+相同方式共享；翻译/演绎须附加官方免责声明且不得用 WHO logo）
+  nonCommercialAllowed: true（商业使用须 permissions form 书面许可）
+  api: {tokenRequired: 主题页无公开 API（ICD-11 另有 API 需注册）, rateLimit: 未核实}
+  updateFrequency: 未核实
+  notes: **关键：CC 许可仅覆盖 WHO 出版物文本，不覆盖第三方图表/照片；SA 要求衍生作品同许可发布，平台应使用普通版 CC BY-NC-SA 作为"类似许可"（IGO 版只能条约性国际组织用）；不得用于推广/背书任何产品**
+  unverified: [TCIM 页更新频率, 网页非出版物许可边界]
+
+- id: pubmed
+  verifiedAt: 2026-07-20
+  termsOfUseUrl: https://www.nlm.nih.gov/web_policies.html   # HTTP 200，Last Reviewed 2024-12-02
+  license: 分两类：NLM/美国政府作品美国无版权（公有领域）；**出版商提供的内容（摘要、图）可能受版权保护，NLM 不授权**
+  licenseEvidence: https://www.ncbi.nlm.nih.gov/sites/books/NBK25497/ — "abstracts in PubMed may incorporate material that may be protected by U.S. and foreign copyright laws. All persons reproducing, redistributing, or making commercial use of this information are expected to adhere to the terms and conditions asserted by the copyright holder."
+  citationFormat: 署名 "Courtesy of the National Library of Medicine" 或 "Source: National Library of Medicine"；软件须向用户展示 NCBI Disclaimer
+  cachingAllowed: true（大型挖掘可下载本地全量副本 pubmed.ncbi.nlm.nih.gov/help/#download-pubmed-data）
+  redistributionAllowed: 分内容：NLM 元数据自由复制；出版商版权内容超 fair use 需版权人书面许可
+  nonCommercialAllowed: true（公有领域内容不受限）
+  api: {tokenRequired: false（E-utilities 免 key；免费 key 提额；要求 tool+email 参数）, rateLimit: 免 key 3 req/s，带 key 10 req/s；大任务限周末或美东 21:00–05:00}
+  apiEvidence: "Without an API key, any site (IP address) posting more than 3 requests per second to the E-utilities will receive an error message."
+  updateFrequency: 未核实官方数值（EInfo 可查各库更新时间）
+  notes: **安全做法：链接回 PubMed 记录页，仅展示 NLM 生成元数据；LinkOut 全文 NCBI 不持有版权**
+  unverified: [更新频率官方数值]
+
+# 三条影响最大的红线（对开源数据平台）
+# ① IUCN Red List：禁止再分发，须标注版本号，旧版失效 —— 只能申请授权+链接回源+引用等级，不批量镜像
+# ② Species+/CITES Checklist：禁止再分发 —— 同上
+# ③ BirdLife DataZone：明确禁止爬取与 TDM（含 AI 训练）—— 只能走数据申请流程
+# eFloras：条款失联，合规证据最弱，按"保留所有权利"保守处理，建议书面确认

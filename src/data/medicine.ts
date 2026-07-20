@@ -30,6 +30,7 @@ export const medicine: MedicalTradition[] = [
       zh: '现代研究覆盖部分单味药的化学成分与药理作用;针灸在部分疼痛适应症上有较充分的随机对照试验证据;多数传统复方的临床证据仍有限或存在争议。青蒿素的发现被视为从古典文献中发掘现代药物的代表案例。',
       en: 'Modern research covers phytochemistry and pharmacology of some single herbs; acupuncture has relatively robust RCT evidence for certain pain conditions; evidence for most classical formulas remains limited or contested. The discovery of artemisinin is a landmark case of a modern drug derived from classical records.',
     },
+    evidenceLevel: 'C',
     safetyAndRegulation: {
       zh: '在中国,中医药由《中华人民共和国中医药法》规范,饮片与中成药需符合《中国药典》标准;部分药材含毒性成分(如马兜铃酸类)已被多国限制;任何使用应咨询合格执业医师。',
       en: 'In China, TCM is regulated under the TCM Law, with decoction pieces and patent products required to meet Chinese Pharmacopoeia standards; some herbs contain toxic constituents (e.g., aristolochic acids) restricted in many countries. Consult a licensed practitioner for any use.',
@@ -60,6 +61,7 @@ export const medicine: MedicalTradition[] = [
       zh: '现代研究集中在部分高原植物的化学成分与适应原样作用上(如红景天属),多数为实验室与动物研究,人体证据总体有限;部分传统配方中使用的矿物成分存在重金属安全争议。',
       en: 'Modern research focuses on phytochemistry and adaptogen-like effects of some plateau plants (e.g., Rhodiola), mostly preclinical; human evidence remains limited overall, and mineral ingredients in some traditional formulas raise heavy-metal safety concerns.',
     },
+    evidenceLevel: 'D',
     safetyAndRegulation: {
       zh: '在中国,藏医药医疗机构与藏药生产纳入国家医药管理体系,部分制剂有国家标准;涉及濒危物种(如冬虫夏草)的材料存在保护与可持续采集问题,野生资源不可随意采集。',
       en: 'In China, Tibetan-medicine institutions and products are integrated into the national regulatory system with state standards for some preparations; materials involving endangered species (e.g., caterpillar fungus) raise conservation and sustainability concerns — wild resources must not be harvested casually.',
@@ -90,6 +92,7 @@ export const medicine: MedicalTradition[] = [
       zh: '对部分傣药常用植物(如肾茶等)有初步化学成分研究,临床证据总体缺乏;相关研究多发表于地方性研究机构。',
       en: 'Preliminary phytochemical studies exist for some commonly used Dai medicinal plants (e.g., Orthosiphon); clinical evidence is generally lacking, with research mostly from regional institutes.',
     },
+    evidenceLevel: 'E',
     safetyAndRegulation: {
       zh: '傣医药医疗机构纳入地方卫生管理体系;热带植物种类繁多,误认风险较高,任何采集与使用需由合格机构指导。',
       en: 'Dai-medicine institutions operate within the local health system; high tropical plant diversity creates real misidentification risk — collection and use should be guided by qualified institutions.',
@@ -120,6 +123,7 @@ export const medicine: MedicalTradition[] = [
       zh: '对部分常用植物(如姜黄、睡茄)有较丰富的实验室与初步临床研究,整体证据强度不一;多国监管机构曾通报部分阿育吠陀产品的重金属超标问题。',
       en: 'Some widely used plants (turmeric, ashwagandha) have substantial preclinical and preliminary clinical research, though overall evidence strength varies; regulators in several countries have reported heavy-metal contamination in some Ayurvedic products.',
     },
+    evidenceLevel: 'D',
     safetyAndRegulation: {
       zh: '印度对传统医学实行注册与药典管理;出口产品在欧美多按膳食补充剂或药品不同路径监管;消费者应注意来源可靠性与污染风险。',
       en: 'India regulates traditional medicine through registration and pharmacopoeias; exported products are regulated as supplements or drugs depending on jurisdiction — source reliability and contamination risk deserve attention.',

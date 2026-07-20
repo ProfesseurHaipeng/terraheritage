@@ -9,6 +9,8 @@ export { cultures, cultureById } from './cultures';
 export { medicine, medicineById } from './medicine';
 export { routes, routeById } from './routes';
 export { sources, sourceById } from './sources';
+export { authoritySources, datasetSources } from './registry';
+export { plantCandidates, animalCandidates, cultureCandidates, medicineTopicCandidates, conservationTopicCandidates, pilotCandidates } from './pilot/candidates';
 
 import { countries } from './countries';
 import { regions } from './regions';

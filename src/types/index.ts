@@ -102,6 +102,8 @@ export interface MedicalTradition {
   philosophy: LocalText;
   practices: LocalText;
   modernEvidence: LocalText;
+  /** 证据等级(A-E,交付16 起必填) */
+  evidenceLevel: EvidenceLevel;
   safetyAndRegulation: LocalText;
   sourceIds: string[];
   reviewStatus: ReviewStatus;
